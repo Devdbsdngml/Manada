@@ -21,7 +21,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-// Why not Commit
+// Why not Commit?
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
