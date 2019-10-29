@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="personnel">
+        <item>2명</item>
+        <item>3명</item>
+        <item>4명</item>
+        <item>5명</item>
+    </string-array>
+
+    <string-array name="college">
+        <item>인문사회대학</item>
+        <item>공과대학</item>
+        <item>융합기술대학</item>
+        <item>보건생명대학</item>
+        <item>철도대학</item>
+    </string-array>
+
+</resources>

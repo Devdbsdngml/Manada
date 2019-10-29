@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "783692425988",
+    "firebase_url": "https://manada-7184a.firebaseio.com",
+    "project_id": "manada-7184a",
+    "storage_bucket": "manada-7184a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783692425988:android:8c0c0c6576344187",
+        "android_client_info": {
+          "package_name": "com.example.manada"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783692425988-4lqg2rjmr1083urhe0eab4i003u4cf5b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.manada",
+            "certificate_hash": "7e8b26ee29f340ef5a063401a7cbf597539b8ebb"
+          }
+        },
+        {
+          "client_id": "783692425988-psvoo7tjm7jb7n7lq38f4lvcfhuotmfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5Di58mF10nie78610yiEwKpNXWgnhayE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783692425988-psvoo7tjm7jb7n7lq38f4lvcfhuotmfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

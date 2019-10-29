@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fragment"
+    tools:context=".Activity.FragmentActivity">
+
+    <FrameLayout
+        android:id="@+id/Fragment_Container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/LinearLayout">
+    </FrameLayout>
+    
+    <LinearLayout
+        android:id="@+id/LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="#BEC0BF"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_alignParentBottom="true">
+        
+        <ImageView
+            android:id="@+id/btn_user_frag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/person"/>
+
+        <ImageView
+            android:id="@+id/btn_chat_frag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/chat"/>
+
+        <ImageView
+            android:id="@+id/btn_home_frag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/home"/>
+
+        <ImageView
+            android:id="@+id/btn_menu_frag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@drawable/menu"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.UserFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/fragment_home"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="35dp"
+                    android:paddingLeft="16dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/id"/>
+
+                <TextView
+                    android:id="@+id/tv_frag_user_email"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittextbackground"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="35dp"
+                    android:paddingLeft="16dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/id"/>
+
+                <TextView
+                    android:id="@+id/tv_frag_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittextbackground"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="35dp"
+                    android:paddingLeft="16dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/id"/>
+
+                <TextView
+                    android:id="@+id/tv_frag_user_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittextbackground"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="35dp"
+                    android:paddingLeft="16dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/id"/>
+
+                <Spinner
+                    android:id="@+id/sp_frag_user_personnel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/spinner"
+                    android:prompt="@string/spinner_pensonnel"
+                    android:spinnerMode="dialog"
+                    android:visibility="visible"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/tv_frag_user_personnel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittextbackground"
+                    android:visibility="gone"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spinner_pensonnel"
+                android:layout_marginEnd="64dp"
+                android:layout_gravity="end"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="35dp"
+                    android:paddingLeft="16dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/id"/>
+
+                <Spinner
+                    android:id="@+id/sp_frag_user_mycollege"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/spinner"
+                    android:prompt="@string/spinner_my_college"
+                    android:spinnerMode="dialog"
+                    android:visibility="visible"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/tv_frag_user_mycollege"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittextbackground"
+                    android:visibility="gone"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spinner_my_college"
+                android:layout_marginEnd="64dp"
+                android:layout_gravity="end"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="35dp"
+                    android:paddingLeft="16dp"
+                    android:maxHeight="35dp"
+                    android:src="@drawable/id"/>
+
+                <Spinner
+                    android:id="@+id/sp_frag_user_yourcollege"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/spinner"
+                    android:layout_marginStart="16dp"
+                    android:prompt="@string/spinner_your_college"
+                    android:spinnerMode="dialog"
+                    android:visibility="visible"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/tv_frag_user_yourcollege"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittextbackground"
+                    android:visibility="gone"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spinner_your_college"
+                android:layout_marginEnd="64dp"
+                android:layout_gravity="end"/>
+
+            <Button
+                android:id="@+id/btn_frag_user_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="48dp"
+                android:visibility="gone"
+                android:text="저장"
+                android:background="@drawable/buttonbackground" />
+
+            <Button
+                android:id="@+id/btn_frag_user_modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="48dp"
+                android:visibility="gone"
+                android:text="수정"
+                android:background="@drawable/buttonbackground" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</FrameLayout>
