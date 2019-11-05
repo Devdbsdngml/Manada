@@ -30,6 +30,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Handler handler;
     private TextView tv_clock;
+    private TextView tv_request;
     private Button btn_confirm;
 
     @SuppressLint("HandlerLeak")
@@ -44,8 +45,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         btn_confirm.setOnClickListener(this);
 
-        matching();
-
         return view;
     }
 
@@ -57,6 +56,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
     private void initView() {
         tv_clock = view.findViewById(R.id.tv_clock);
+        tv_request = view.findViewById(R.id.tv_request);
         btn_confirm = view.findViewById(R.id.btn_confirm);
     }
     private void startClock() {
@@ -90,9 +90,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         t.start() ;
     }
 
-    private void matching() {
-        // firestore 의 conditions collection에서 비교 후 데이터가 맞으면
-        // 매칭 확인 버튼이 활성화
-        btn_confirm.setEnabled(true);
-    }
 }

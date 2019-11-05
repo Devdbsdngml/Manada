@@ -45,13 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_signup.setOnClickListener(this);
         tv_login.setOnClickListener(this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-
         checkDocUsers();
-
     }
 
     public void onClick(View view) {
@@ -69,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         btn_signup = (Button) findViewById(R.id.btn_signup);
         tv_login = (TextView)findViewById(R.id.tv_login);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
     }
     private void checkDocUsers() {
 

@@ -29,6 +29,15 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private FirebaseFirestore firebaseFirestore;
 
     private List<UserModel> userModels;
+    private OnClickListener mListener = null;
+
+    public interface OnClickListener {
+        void OnClick(View view, int position);
+    }
+
+    public void setOnClickListener(OnClickListener listener) {
+        this.mListener = listener;
+    }
 
     public UserListAdapter() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -73,6 +82,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ((CustomViewHolder)holder).userlist_tv_yourcollege.setText(userModels.get(position).yourcollege);
         ((CustomViewHolder)holder).userlist_tv_personnel.setText(userModels.get(position).personnel);
         ((CustomViewHolder)holder).userlist_tv_gender.setText(userModels.get(position).gender);
+
     }
 
     @Override
@@ -96,6 +106,18 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             userlist_tv_personnel = view.findViewById(R.id.userlist_tv_personnel);
             userlist_tv_gender = view.findViewById(R.id.userlist_tv_gender);
             userlist_btn_request = view.findViewById(R.id.userlist_btn_request);
+
+            userlist_btn_request.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.OnClick(view, pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }

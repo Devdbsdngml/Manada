@@ -34,22 +34,13 @@
                 android:background="@drawable/etcbackground"/>
 
             <TextView
+                android:id="@+id/tv_request"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="visible"
-                android:text="아직 매칭된 상대가 없습니다!"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                android:text="매칭이 되었습니다!"
+                android:text="@string/not_request"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
@@ -62,7 +53,7 @@
                 android:background="@drawable/buttonbackground"
                 android:enabled="false"
                 android:padding="16dp"
-                android:text="매칭확인"/>
+                android:text="신청 확인"/>
 
         </LinearLayout>
 

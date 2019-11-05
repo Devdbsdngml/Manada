@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,13 @@ public class UserListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userListAdapter);
 
+        userListAdapter.setOnClickListener(new UserListAdapter.OnClickListener() {
+            @Override
+            public void OnClick(View view, int position) {
+                showToast("신청!");
+            }
+        });
+
         return view;
     }
 
@@ -49,6 +57,10 @@ public class UserListFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView = (RecyclerView) view.findViewById(R.id.userlist_frag_recyclerview);
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(this.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
 }

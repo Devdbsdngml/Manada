@@ -14,12 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.example.manada.Activity.MainActivity;
 import com.example.manada.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -70,25 +68,12 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            DocumentReference documentReference = firebaseFirestore.collection("users").document(firebaseUser.getUid());
-                            documentReference.delete()
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-
-                                        }
-                                    });
-                            documentReference = firebaseFirestore.collection("conditions").document(firebaseUser.getUid());
-                            documentReference.delete()
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-
-                                        }
-                                    });
-                            showToast("회원탈퇴 완료");
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            startActivity(intent);
+                            if(task.isSuccessful()) {
+                                showToast("회원탈퇴 완료");
+                                getActivity().finish();
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
+                                startActivity(intent);
+                            }
                         }
                     });
         }
