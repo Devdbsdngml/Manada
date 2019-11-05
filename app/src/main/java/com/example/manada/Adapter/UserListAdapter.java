@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,7 +30,10 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private FirebaseFirestore firebaseFirestore;
 
     private List<UserModel> userModels;
+    private UserModel userModel;
+
     private OnClickListener mListener = null;
+
 
     public interface OnClickListener {
         void OnClick(View view, int position);
@@ -47,7 +51,41 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final String myuid = firebaseUser.getUid();
 
         userModels = new ArrayList<>();
+        userModel = new UserModel();
 
+        firebaseFirestore.collection("conditions").document(firebaseUser.getUid())
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        String a = documentSnapshot.get("yourcollege").toString().trim();
+                        userModel.yourcollege = a;
+                        System.out.println(a + "  1");
+                        System.out.println(userModel.yourcollege  + "  2");
+                    }
+            System.out.println(userModel.yourcollege  + "  3");
+        });
+
+        System.out.println(userModel.yourcollege  + "  4");
+
+        firebaseFirestore.collection("conditions")
+                .whereEqualTo("mycollege", userModel.yourcollege)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                userModels.clear();
+                if(task.isSuccessful()) {
+                    for(QueryDocumentSnapshot document : task.getResult()) {
+                        UserModel userModel = document.toObject(UserModel.class);
+                        if(userModel.uid.equals(myuid)) {
+                            continue;
+                        }
+                        userModels.add(userModel);
+                    }
+                    notifyDataSetChanged();
+                }
+            }
+        });
+        /*
         firebaseFirestore.collection("conditions")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -65,6 +103,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             }
         });
+        */
     }
 
     @NonNull

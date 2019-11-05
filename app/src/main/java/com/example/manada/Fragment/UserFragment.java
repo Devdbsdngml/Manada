@@ -50,7 +50,6 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private String p, m, y;
     private String name, gender, uid, personnel, mycollege, yourcollege;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,9 +69,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         tv_frag_user_email.setText(firebaseUser.getEmail());
 
         // firestore에 users에 저장된 값을 불러와서 textview에 출력
-        DocumentReference documentReference = firebaseFirestore.collection("users")
-                .document(firebaseUser.getUid());
-
+        DocumentReference documentReference = firebaseFirestore.collection("users").document(firebaseUser.getUid());
         documentReference.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -85,6 +82,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
                     }
                 });
+
+        System.out.println(name);
 
         // 스피너 등록 및 이벤트 리스너 연결
         setSpinner();
@@ -197,6 +196,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
         UserModel userConditions = new UserModel();
         userConditions.name = name;
+        System.out.println(name);
         userConditions.gender = gender;
         userConditions.uid = uid;
         userConditions.personnel = p;
@@ -210,7 +210,6 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-
                             showToast("저장되었습니다");
                             checkDocConditions();
                         }
