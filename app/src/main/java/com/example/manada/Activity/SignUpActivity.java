@@ -101,6 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             overridePendingTransition(R.anim.anim_slide_in_bottom, R.anim.anim_slide_out_top);
                         }
                         else {
+                            Log.d(TAG,"Send Verification fail!");
                             showToast("error");
                         }
                     }

@@ -15,15 +15,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.manada.Model.UserModel;
 import com.example.manada.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -42,6 +40,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private String uid;
     private String gender;
     private String name;
+
+    public UserModel userModel;
+
     private long initTime;
     private int seletedID;
 
@@ -93,14 +94,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         name = profile_et_name.getText().toString().trim();
         uid = firebaseUser.getUid();
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("uid", uid);
-        user.put("name", name);
-        user.put("gender", gender);
+
+        UserModel userModel = new UserModel();
+        userModel.uid = uid;
+        userModel.name = name;
+        userModel.gender = gender;
 
         if(!name.isEmpty() && (profile_rb_male.isChecked() || profile_rb_female.isChecked())) {
             if(firebaseUser != null) {
-                firebaseFirestore.collection("users").document(firebaseUser.getUid()).set(user)
+                firebaseFirestore.collection("users").document(firebaseUser.getUid()).set(userModel)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

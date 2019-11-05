@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.manada.Model.UserModel;
 import com.example.manada.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,9 +26,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class UserFragment extends Fragment implements View.OnClickListener {
@@ -44,14 +42,14 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             tv_frag_user_personnel, tv_frag_user_mycollege, tv_frag_user_yourcollege;
     private Spinner sp_frag_user_personnel, sp_frag_user_mycollege, sp_frag_user_yourcollege;
     private Button btn_frag_user_save, btn_frag_user_modify;
-    private Map<String, Object> condition;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
 
     private String p, m, y;
-    private String name, gender, personnel, mycollege, yourcollege;
+    private String name, gender, uid, personnel, mycollege, yourcollege;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +72,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         // firestore에 users에 저장된 값을 불러와서 textview에 출력
         DocumentReference documentReference = firebaseFirestore.collection("users")
                 .document(firebaseUser.getUid());
+
         documentReference.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -189,18 +188,29 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     }
 
     private void save() {
-        condition = new HashMap<>();
-        condition.put("personnel", p);
-        condition.put("mycollege", m);
-        condition.put("yourcollege", y);
+//        condition = new HashMap<>();
+//        condition.put("personnel", p);
+//        condition.put("mycollege", m);
+//        condition.put("yourcollege", y);
+
+        uid = firebaseUser.getUid();
+
+        UserModel userConditions = new UserModel();
+        userConditions.name = name;
+        userConditions.gender = gender;
+        userConditions.uid = uid;
+        userConditions.personnel = p;
+        userConditions.mycollege = m;
+        userConditions.yourcollege = y;
 
         // firestore의 conditions collection에 저장
         if (firebaseUser != null) {
             firebaseFirestore.collection("conditions")
-                    .document(firebaseUser.getUid()).set(condition)
+                    .document(firebaseUser.getUid()).set(userConditions)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+
                             showToast("저장되었습니다");
                             checkDocConditions();
                         }
@@ -255,6 +265,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                                 personnel = documentSnapshot.get("personnel").toString().trim();
                                 mycollege = documentSnapshot.get("mycollege").toString().trim();
                                 yourcollege = documentSnapshot.get("yourcollege").toString().trim();
+
 
                                 // spinner and textview의 visibility 설정
                                 sp_frag_user_personnel.setVisibility(View.GONE);

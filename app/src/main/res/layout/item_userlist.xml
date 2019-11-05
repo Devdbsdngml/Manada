@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/userlist_relative"
+    android:background="@drawable/buttonbackground"
+    android:layout_marginTop="16dp"
+    android:layout_margin="6dp">
+
+    <TextView
+        android:id="@+id/userlist_tv_name"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:padding="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_below="@id/userlist_tv_name"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/userlist_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="my college"
+            android:textSize="12sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/userlist_tv_mycollege"
+            android:layout_width="64dp"
+            android:layout_height="48dp"
+            android:layout_below="@id/userlist_tv_name"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="your college"
+            android:textSize="12sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/userlist_tv_yourcollege"
+            android:layout_width="64dp"
+            android:layout_height="48dp"
+            android:layout_below="@id/userlist_tv_name"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_toRightOf="@id/userlist_tv_mycollege" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/userlist_tv_personnel"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/userlist_linear"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="6dp"/>
+
+    <TextView
+        android:id="@+id/userlist_tv_gender"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="32dp"/>
+
+    <Button
+        android:id="@+id/userlist_btn_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="신청"
+        android:textSize="16sp"
+        android:layout_below="@id/userlist_tv_personnel"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/edittextbackground"
+        android:layout_margin="6dp"/>
+
+
+
+</RelativeLayout>

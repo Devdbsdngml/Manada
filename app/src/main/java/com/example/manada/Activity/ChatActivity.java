@@ -20,9 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -78,8 +80,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 name = documentSnapshot.get("name").toString().trim();
                 gender = documentSnapshot.get("gender").toString().trim();
 
-
-                chatModel.chatUsers.put(uid, true);
             }
         });
 
@@ -100,11 +100,24 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == chat_btn_send) {
-            chatModel.chatUsers.get(uid);
             Log.d(TAG, uid);
             Log.d(TAG, name);
             Log.d(TAG, gender);
 
+            String contents = chat_et_contents.getText().toString();
+
+//            Map<String, String> chats = new HashMap<>();
+//            chats.put("uid",uid);
+//            chats.put("name",name);
+//            chats.put("contents",contents);
+
         }
+    }
+
+    private void checkChatsUid() {
+        CollectionReference collectionReference = firebaseFirestore.collection("chats");
+        Query query = collectionReference.whereEqualTo("uid", uid);
+
+
     }
 }

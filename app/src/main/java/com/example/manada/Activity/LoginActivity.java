@@ -77,19 +77,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            if(firebaseUser.isEmailVerified()) {
                                 Log.d(TAG, "error1");
-                                showToast("로그인 성공");
+                                showToast("메인 화면으로 이동합니다");
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.anim_slide_in_top, R.anim.anim_slide_out_bottom);
-                            } else {
-                                Log.d(TAG,"error2", task.getException());
-                                showToast("이메일 인증을 해주세요");
-                            }
                         } else {
                             showToast("존재하지 않는 아이디거나 " +
-                                     "비밀번호가 틀렸습니다");
+                                    "비밀번호가 틀렸습니다");
                         }
                     }
                 });
