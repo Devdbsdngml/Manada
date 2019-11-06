@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.manada.Model.ListModel;
 import com.example.manada.Model.UserModel;
 import com.example.manada.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +31,11 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private FirebaseFirestore firebaseFirestore;
 
     private List<UserModel> userModels;
-    private UserModel userModel;
+    private ListModel listModel;
+
+    private String mycollege;
+    private String personnel;
+    private String yourcollege;
 
     private OnClickListener mListener = null;
 
@@ -51,39 +56,43 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final String myuid = firebaseUser.getUid();
 
         userModels = new ArrayList<>();
-        userModel = new UserModel();
+
+        listModel = new ListModel();
 
         firebaseFirestore.collection("conditions").document(firebaseUser.getUid())
                 .get().addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        String a = documentSnapshot.get("yourcollege").toString().trim();
-                        userModel.yourcollege = a;
-                        System.out.println(a + "  1");
-                        System.out.println(userModel.yourcollege  + "  2");
-                    }
-            System.out.println(userModel.yourcollege  + "  3");
-        });
+                        mycollege = documentSnapshot.get("mycollege").toString();
+                        personnel = documentSnapshot.get("personnel").toString();
+                        yourcollege = documentSnapshot.get("yourcollege").toString().trim();
+                        listModel.mycollege = mycollege;
+                        listModel.personnel = personnel;
+                        listModel.yourcollege = yourcollege;
 
-        System.out.println(userModel.yourcollege  + "  4");
+                        // 선택한 조건에따라 Userlist 목록 출력
+                        firebaseFirestore.collection("conditions")
+                                .whereEqualTo("mycollege", listModel.yourcollege)
+                                .whereEqualTo("personnel", listModel.personnel)
+                                .whereEqualTo("yourcollege", listModel.mycollege)
+                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                userModels.clear();
+                                if(task.isSuccessful()) {
+                                    for(QueryDocumentSnapshot document : task.getResult()) {
+                                        UserModel userModel = document.toObject(UserModel.class);
+                                        if(userModel.uid.equals(myuid)) {
+                                            continue;
+                                        }
+                                        userModels.add(userModel);
+                                    }
+                                    notifyDataSetChanged();
+                                }
+                            }
+                        });
 
-        firebaseFirestore.collection("conditions")
-                .whereEqualTo("mycollege", userModel.yourcollege)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                userModels.clear();
-                if(task.isSuccessful()) {
-                    for(QueryDocumentSnapshot document : task.getResult()) {
-                        UserModel userModel = document.toObject(UserModel.class);
-                        if(userModel.uid.equals(myuid)) {
-                            continue;
-                        }
-                        userModels.add(userModel);
                     }
-                    notifyDataSetChanged();
-                }
-            }
         });
         /*
         firebaseFirestore.collection("conditions")

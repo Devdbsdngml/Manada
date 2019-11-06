@@ -83,8 +83,6 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
-        System.out.println(name);
-
         // 스피너 등록 및 이벤트 리스너 연결
         setSpinner();
 
@@ -196,7 +194,6 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
         UserModel userConditions = new UserModel();
         userConditions.name = name;
-        System.out.println(name);
         userConditions.gender = gender;
         userConditions.uid = uid;
         userConditions.personnel = p;
