@@ -1,7 +1,6 @@
 package com.example.manada.Activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +48,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private String DestinationUid;
     private String name;
     private String gender;
+    private String chatId;
 
     private UserModel userModel;
     private ChatModel chatModel;
@@ -69,8 +69,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         layoutManager = new LinearLayoutManager(this);
 
         chatAdapter = new ChatAdapter();
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(chatAdapter);
+
 
         chatModel = new ChatModel();
     }
@@ -101,19 +100,38 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     gender = userModel.gender;
 
 //                    ChatModel chatModel = new ChatModel();
-                    chatModel.Uid = Uid;
-                    chatModel.DestinationUid = DestinationUid;
-                    chatModel.name = name;
-                    chatModel.contents = chat_et_contents.getText().toString();
+                    chatModel.users.put(Uid, true);
+                    chatModel.users.put(DestinationUid, true);
 
-                    FirebaseFirestore.getInstance().collection("chats")
-                            .document().set(chatModel)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    checkChatsUid();
-                                }
-                            });
+                    if(chatId == null) {
+                        chat_btn_send.setEnabled(false);
+                        FirebaseFirestore.getInstance().collection("chats")
+                                .document().set(chatModel)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        checkChatsUid();
+                                    }
+                                });
+                    } else {
+
+                        ChatModel.Comment comment = new ChatModel.Comment();
+                        comment.Uid = Uid;
+                        comment.DestinationUid = DestinationUid;
+                        comment.name = name;
+                        comment.contents = chat_et_contents.getText().toString();
+
+                        FirebaseFirestore.getInstance().collection("chats")
+                                .document(chatId).collection("comments").document()
+                                .set(comment)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        chat_et_contents.setText("");
+                                    }
+                                });
+
+                    }
                 }
             });
         }
@@ -121,13 +139,20 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkChatsUid() {
         FirebaseFirestore.getInstance().collection("chats")
+                .whereEqualTo("users/"+Uid, true)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for(QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId());
-                        chatModel.ChatId = document.getId();
+                        ChatModel chatModel = document.toObject(ChatModel.class);
+                        if(chatModel.users.containsKey(DestinationUid) && chatModel.users.size() == 2) {
+                            chatId = document.getId();
+                            chat_btn_send.setEnabled(true);
+
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(chatAdapter);
+                        }
                     }
                 }
             }
