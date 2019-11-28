@@ -35,7 +35,7 @@
                     android:maxWidth="35dp"
                     android:paddingLeft="16dp"
                     android:maxHeight="35dp"
-                    android:src="@drawable/id"/>
+                    android:src="@drawable/email"/>
 
                 <TextView
                     android:id="@+id/tv_frag_user_email"
@@ -66,7 +66,7 @@
                     android:maxWidth="35dp"
                     android:paddingLeft="16dp"
                     android:maxHeight="35dp"
-                    android:src="@drawable/id"/>
+                    android:src="@drawable/name"/>
 
                 <TextView
                     android:id="@+id/tv_frag_user_name"
@@ -97,7 +97,7 @@
                     android:maxWidth="35dp"
                     android:paddingLeft="16dp"
                     android:maxHeight="35dp"
-                    android:src="@drawable/id"/>
+                    android:src="@drawable/usergender"/>
 
                 <TextView
                     android:id="@+id/tv_frag_user_gender"

@@ -158,6 +158,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
         return super.onKeyDown(keyCode, event);
     }
+
     public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

@@ -94,7 +94,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         name = profile_et_name.getText().toString().trim();
         uid = firebaseUser.getUid();
 
-
         UserModel userModel = new UserModel();
         userModel.uid = uid;
         userModel.name = name;

@@ -13,18 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.manada.Adapter.ChatAdapter;
 import com.example.manada.Model.ChatModel;
+import com.example.manada.Model.UserModel;
 import com.example.manada.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,9 +45,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText chat_et_contents;
     private Button chat_btn_send;
 
-    private String uid;
+    private String Uid;
+    private String DestinationUid;
     private String name;
     private String gender;
+
+    private UserModel userModel;
     private ChatModel chatModel;
 
     @Override
@@ -56,33 +60,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
 
+        DestinationUid = getIntent().getStringExtra("DestinationUid");
 
         chat_btn_send.setOnClickListener(this);
-
 
         // recyclerview 등록
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
         chatAdapter = new ChatAdapter();
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(chatAdapter);
 
         chatModel = new ChatModel();
-
-        DocumentReference documentReference = firebaseFirestore.collection("users").document(firebaseUser.getUid());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot documentSnapshot = task.getResult();
-
-                uid = documentSnapshot.get("uid").toString().trim();
-                name = documentSnapshot.get("name").toString().trim();
-                gender = documentSnapshot.get("gender").toString().trim();
-
-            }
-        });
-
     }
 
     private void initView() {
@@ -100,24 +90,47 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == chat_btn_send) {
-            Log.d(TAG, uid);
-            Log.d(TAG, name);
-            Log.d(TAG, gender);
 
-            String contents = chat_et_contents.getText().toString();
+            FirebaseFirestore.getInstance().collection("users").document(firebaseUser.getUid())
+                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    userModel = documentSnapshot.toObject(UserModel.class);
+                    Uid = userModel.uid;
+                    name = userModel.name;
+                    gender = userModel.gender;
 
-//            Map<String, String> chats = new HashMap<>();
-//            chats.put("uid",uid);
-//            chats.put("name",name);
-//            chats.put("contents",contents);
+//                    ChatModel chatModel = new ChatModel();
+                    chatModel.Uid = Uid;
+                    chatModel.DestinationUid = DestinationUid;
+                    chatModel.name = name;
+                    chatModel.contents = chat_et_contents.getText().toString();
 
+                    FirebaseFirestore.getInstance().collection("chats")
+                            .document().set(chatModel)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    checkChatsUid();
+                                }
+                            });
+                }
+            });
         }
     }
 
     private void checkChatsUid() {
-        CollectionReference collectionReference = firebaseFirestore.collection("chats");
-        Query query = collectionReference.whereEqualTo("uid", uid);
-
-
+        FirebaseFirestore.getInstance().collection("chats")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for(QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId());
+                        chatModel.ChatId = document.getId();
+                    }
+                }
+            }
+        });
     }
 }

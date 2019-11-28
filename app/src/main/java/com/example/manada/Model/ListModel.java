@@ -5,8 +5,8 @@ public class ListModel {
     public ListModel() {
 
     }
-
     public String mycollege;
     public String personnel;
     public String yourcollege;
+    public String gender;
 }

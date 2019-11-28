@@ -13,6 +13,8 @@ public class UserModel {
     public String personnel;
     public String yourcollege;
 
+    public String pushToken;
+
     public String getUid() {
         return uid;
     }

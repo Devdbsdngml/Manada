@@ -12,6 +12,9 @@ import com.example.manada.R;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public ChatAdapter() {
+
+    }
 
     @NonNull
     @Override
@@ -28,6 +31,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return 0;
     }
+
+
+
 
     private class MyMessageViewHolder extends RecyclerView.ViewHolder {
         private View mView;

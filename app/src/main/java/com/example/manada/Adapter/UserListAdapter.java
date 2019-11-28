@@ -30,12 +30,13 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
 
-    private List<UserModel> userModels;
+    public List<UserModel> userModels;
     private ListModel listModel;
 
     private String mycollege;
     private String personnel;
     private String yourcollege;
+    private String gender;
 
     private OnClickListener mListener = null;
 
@@ -65,16 +66,25 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         DocumentSnapshot documentSnapshot = task.getResult();
                         mycollege = documentSnapshot.get("mycollege").toString();
                         personnel = documentSnapshot.get("personnel").toString();
-                        yourcollege = documentSnapshot.get("yourcollege").toString().trim();
+                        yourcollege = documentSnapshot.get("yourcollege").toString();
+                        gender = documentSnapshot.get("gender").toString();
                         listModel.mycollege = mycollege;
                         listModel.personnel = personnel;
                         listModel.yourcollege = yourcollege;
+
+                        if(gender.equals("남자")) {
+                            listModel.gender = "여자";
+                        }
+                        else if(gender.equals("여자")) {
+                            listModel.gender = "남자";
+                        }
 
                         // 선택한 조건에따라 Userlist 목록 출력
                         firebaseFirestore.collection("conditions")
                                 .whereEqualTo("mycollege", listModel.yourcollege)
                                 .whereEqualTo("personnel", listModel.personnel)
                                 .whereEqualTo("yourcollege", listModel.mycollege)
+                                .whereEqualTo("gender", listModel.gender)
                                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -94,25 +104,6 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                     }
         });
-        /*
-        firebaseFirestore.collection("conditions")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                userModels.clear();
-                if(task.isSuccessful()) {
-                    for(QueryDocumentSnapshot document : task.getResult()) {
-                        UserModel userModel = document.toObject(UserModel.class);
-                        if(userModel.uid.equals(myuid)) {
-                            continue;
-                        }
-                        userModels.add(userModel);
-                    }
-                    notifyDataSetChanged();
-                }
-            }
-        });
-        */
     }
 
     @NonNull
@@ -130,8 +121,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ((CustomViewHolder)holder).userlist_tv_yourcollege.setText(userModels.get(position).yourcollege);
         ((CustomViewHolder)holder).userlist_tv_personnel.setText(userModels.get(position).personnel);
         ((CustomViewHolder)holder).userlist_tv_gender.setText(userModels.get(position).gender);
-
-    }
+            }
 
     @Override
     public int getItemCount() {

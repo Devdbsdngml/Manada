@@ -6,5 +6,10 @@ public class ChatModel {
         super();
     }
 
+    public String ChatId;
+    public String Uid;
+    public String DestinationUid;
+    public String name;
+    public String contents;
 
 }
