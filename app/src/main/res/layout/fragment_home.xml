@@ -25,8 +25,8 @@
             <TextView
                 android:id="@+id/tv_clock"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="00:00:00"
@@ -40,24 +40,26 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:visibility="visible"
-                android:text="@string/not_request"
+                android:text="@string/home_fragment_text"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
-            <Button
-                android:id="@+id/btn_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/userlist_frag_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/buttonbackground"
-                android:enabled="false"
-                android:padding="16dp"
-                android:text="신청 확인"/>
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:padding="6dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 
-    </ScrollView>
 
+
+    </ScrollView>
 
 </FrameLayout>

@@ -32,7 +32,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-
         // Check if message contains a data payload.
         // foreground
         if (remoteMessage.getData().size() > 0) {

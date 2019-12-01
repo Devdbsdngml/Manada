@@ -38,7 +38,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private String yourcollege;
     private String gender;
 
-    private OnClickListener mListener = null;
+    public OnClickListener mListener = null;
 
 
     public interface OnClickListener {

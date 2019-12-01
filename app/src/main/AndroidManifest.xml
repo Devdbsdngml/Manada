@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+
         <activity android:name=".Activity.ChatActivity" />
         <activity android:name=".Activity.FragmentActivity" />
         <activity android:name=".Activity.ProfileActivity" />

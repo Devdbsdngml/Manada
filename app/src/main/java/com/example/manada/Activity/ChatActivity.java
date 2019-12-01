@@ -114,7 +114,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 });
                     } else {
-
                         ChatModel.Comment comment = new ChatModel.Comment();
                         comment.Uid = Uid;
                         comment.DestinationUid = DestinationUid;
@@ -139,7 +138,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkChatsUid() {
         FirebaseFirestore.getInstance().collection("chats")
-                .whereEqualTo("users/"+Uid, true)
+//                .whereEqualTo("users"+Uid, true)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

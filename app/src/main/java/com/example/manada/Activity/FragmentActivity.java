@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.manada.Fragment.HomeFragment;
 import com.example.manada.Fragment.MenuFragment;
 import com.example.manada.Fragment.UserFragment;
-import com.example.manada.Fragment.UserListFragment;
+import com.example.manada.Fragment.MessageListFragment;
 import com.example.manada.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +34,7 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
     private ImageView btn_user_frag, btn_chat_frag, btn_home_frag, btn_menu_frag;
     private FragmentManager fragmentManager;
     private UserFragment userFragment;
-    private UserListFragment chatFragment;
+    private MessageListFragment chatFragment;
     private HomeFragment homeFragment;
     private MenuFragment menuFragment;
 
@@ -57,7 +57,7 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
 
         fragmentManager = getSupportFragmentManager();
         userFragment = new UserFragment();
-        chatFragment = new UserListFragment();
+        chatFragment = new MessageListFragment();
         homeFragment = new HomeFragment();
         menuFragment = new MenuFragment();
 
