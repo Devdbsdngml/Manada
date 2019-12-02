@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         startClock();
 
 
-        // MessageListFragment 를 HomeFragment 로 옮기고
+        // ChatListFragment 를 HomeFragment 로 옮기고
         userListAdapter = new UserListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userListAdapter);
@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // 신청 클릭 이벤트 바꾸고
         // 챗액티비티 완성하기
         // 메시지리스트프래그먼트 완성하기
-        // MessageListFragment 를 만들어서 신청확인을 받자
+        // ChatListFragment 를 만들어서 신청확인을 받자
 
 
        return view;

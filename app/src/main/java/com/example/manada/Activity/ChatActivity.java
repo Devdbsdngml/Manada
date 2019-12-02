@@ -19,12 +19,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,12 +65,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         chat_btn_send.setOnClickListener(this);
 
-        // recyclerview 등록
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-
         chatAdapter = new ChatAdapter();
-
+        recyclerView.setAdapter(chatAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         chatModel = new ChatModel();
     }
@@ -83,7 +81,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         chat_et_contents = findViewById(R.id.chat_et_contents);
         chat_btn_send = findViewById(R.id.chat_btn_send);
-        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.chat_recyclerview);
     }
 
     @Override
@@ -105,12 +103,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                     if(chatId == null) {
                         chat_btn_send.setEnabled(false);
-                        FirebaseFirestore.getInstance().collection("chats")
-                                .document().set(chatModel)
+                        databaseReference.child("chats").push().setValue(chatModel)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        checkChatsUid();
+                                        checkChatId();
                                     }
                                 });
                     } else {
@@ -120,41 +117,45 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         comment.name = name;
                         comment.contents = chat_et_contents.getText().toString();
 
-                        FirebaseFirestore.getInstance().collection("chats")
-                                .document(chatId).collection("comments").document()
-                                .set(comment)
+                        databaseReference.child("chats").child(chatId).child("comments")
+                                .push().setValue(comment)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        chat_et_contents.setText("");
+                                        if(chat_et_contents.length() != 0) {
+                                            chat_et_contents.setText("");
+                                        } else {
+                                            chat_et_contents.setError("내용을 입력해주세요");
+                                        }
                                     }
                                 });
-
                     }
                 }
             });
         }
     }
 
-    private void checkChatsUid() {
-        FirebaseFirestore.getInstance().collection("chats")
-//                .whereEqualTo("users"+Uid, true)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for(QueryDocumentSnapshot document : task.getResult()) {
-                        ChatModel chatModel = document.toObject(ChatModel.class);
-                        if(chatModel.users.containsKey(DestinationUid) && chatModel.users.size() == 2) {
-                            chatId = document.getId();
-                            chat_btn_send.setEnabled(true);
+    private void checkChatId() {
+        databaseReference.child("chats").orderByChild("users/"+Uid).equalTo(true)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            ChatModel chatModel = item.getValue(ChatModel.class);
+                            if (chatModel.users.containsKey(DestinationUid) && chatModel.users.size() == 2) {
+                                chatId = item.getKey();
+                                chat_btn_send.setEnabled(true);
 
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setAdapter(chatAdapter);
+                                recyclerView.setLayoutManager(layoutManager);
+                                recyclerView.setAdapter(chatAdapter);
+                            }
                         }
                     }
-                }
-            }
-        });
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 }
