@@ -10,16 +10,17 @@ public class ChatModel {
         super();
     }
 
-    public Map<String, Boolean> users = new HashMap<>();
-    public Map<String, Comment> comment = new HashMap<>();
 
-    public static class Comment {
+
+    public Map<String, String> users = new HashMap<>(); //채팅방의 유저들
+    public Map<String, Contents> contents = new HashMap<>();//채팅방의 대화내용
+
+    public static class Contents {
         public String Uid;
-        public String DestinationUid;
-        public String name;
-        public String contents;
+        public String Name;
+        public String Content;
+//        public String ChatId;
+//        public Map<String,Object> readUsers = new HashMap<>();
     }
-
-//    public String ChatId;
 
 }
