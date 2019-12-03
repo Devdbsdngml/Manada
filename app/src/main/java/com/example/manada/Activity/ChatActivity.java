@@ -30,7 +30,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -76,15 +78,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         recyclerview.setAdapter(chatAdapter);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
-        chatModel = new ChatModel();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(firebaseUser != null) {
-            StartListeningForMessages();
-        }
+        chatModel = new ChatModel();
     }
 
     private void initView() {
@@ -114,12 +109,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                     chatModel = new ChatModel();
 
-                    chatModel.users.put("Uid", Uid);
-                    chatModel.users.put("DestinationUid", DestinationUid);
+                    chatModel.users.put(Uid, true);
+                    chatModel.users.put(DestinationUid, true);
 
                     if(ChatId == null) {
                         chat_btn_send.setEnabled(false);
                         firebaseFirestore.collection("chats").document()
+                                //chatModel -> chatModel.users  12-03
                                 .set(chatModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -140,9 +136,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                         if(!chat_et_contents.toString().equals("") && chat_et_contents.length() != 0) {
                                             chat_et_contents.setText("");
+
                                         } else {
                                             chat_et_contents.setError("내용을 입력하세요");
                                         }
+                                        StartListeningForMessages();
                                     }
                                 });
                     }
@@ -159,12 +157,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         if(task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()) {
                                 ChatModel chatModel = document.toObject(ChatModel.class);
-                                if(chatModel.users.containsKey("DestinationUid") && chatModel.users.size() == 2) {
-                                    ChatId = document.getId();
+                                if(chatModel.users.containsKey(DestinationUid) && chatModel.users.size() == 2) {
                                     chat_btn_send.setEnabled(true);
-                                    System.out.println("ChatId" + ChatId);
+                                    ChatId = document.getId();
+
+                                    Map<String, Object> chatIds = new HashMap<>();
+                                    chatIds.put("ChatId", ChatId);
+                                    firebaseFirestore.collection("chats")
+                                            .document(ChatId).update(chatIds);
+
+
+                                    Log.d(TAG, "chatId : " + ChatId);
+                                } else {
+                                    Log.d(TAG, "chatModel.users failed");
                                 }
                             }
+                        } else {
+                            Log.d(TAG, "task failed");
                         }
                     }
                 });
@@ -173,13 +182,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void StartListeningForMessages() {
         firebaseFirestore.collection("chats").document(ChatId)
                 .collection("contents")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .orderBy("dateSent")
+                .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         if(e != null) {
                             Log.d(TAG, "error in ChatActivity");
                         } else {
                             List<ChatModel.Contents> contents = queryDocumentSnapshots.toObjects(ChatModel.Contents.class);
+
+                            chatAdapter.setData(contents);
                             recyclerview.smoothScrollToPosition(chatAdapter.getItemCount()-1);
                         }
                     }

@@ -22,6 +22,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private String uid;
 
+    private String name;
+    private String content;
+
     private List<ChatModel.Contents> contents;
 
 
@@ -56,27 +59,37 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         if(getItemViewType(position) == 1) {
-
+            ((MyMessageViewHolder)holder).my_name.setText(contents.get(position).Name);
+            ((MyMessageViewHolder)holder).my_message.setText(contents.get(position).Content);
         } else {
-
+            ((MessageViewHolder)holder).your_name.setText(contents.get(position).Name);
+            ((MessageViewHolder)holder).your_message.setText(contents.get(position).Content);
+            ((MessageViewHolder)holder).your_image.setCropToPadding(true);
         }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
-//        return comments.size();
+        return contents.size();
+    }
+
+    public void setData(List<ChatModel.Contents> contents) {
+        this.contents = contents;
+        notifyDataSetChanged();
     }
 
 
     private class MyMessageViewHolder extends RecyclerView.ViewHolder {
         private View mView;
+        private TextView my_name;
         private TextView my_message;
 
         public MyMessageViewHolder(@NonNull View view) {
             super(view);
             mView = view;
+            my_name = view.findViewById(R.id.my_name);
             my_message = view.findViewById(R.id.my_message);
         }
     }
@@ -84,12 +97,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private class MessageViewHolder extends RecyclerView.ViewHolder {
         private View mView;
         private ImageView your_image;
+        private TextView your_name;
         private TextView your_message;
 
         public MessageViewHolder(@NonNull View view) {
             super(view);
             mView = view;
             your_image = view.findViewById(R.id.your_image);
+            your_name = view.findViewById(R.id.your_name);
             your_message = view.findViewById(R.id.your_message);
         }
     }
