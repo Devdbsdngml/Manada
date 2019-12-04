@@ -28,6 +28,6 @@
         android:padding="3dp"
         android:gravity="center"
         android:text=""
-        android:textSize="12sp"/>
+        android:textSize="18sp"/>
 
 </RelativeLayout>

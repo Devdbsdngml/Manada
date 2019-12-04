@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="45dp"
+            android:paddingTop="10dp"
             android:orientation="vertical">
 
             <ImageView
@@ -48,9 +48,9 @@
                 android:id="@+id/userlist_frag_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="3dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="3dp"
                 android:layout_marginBottom="12dp"
                 android:padding="6dp">
 

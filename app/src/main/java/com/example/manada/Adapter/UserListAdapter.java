@@ -3,7 +3,7 @@ package com.example.manada.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,8 +37,9 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private String personnel;
     private String yourcollege;
     private String gender;
+    private String userName;
 
-    public OnClickListener mListener = null;
+    public OnClickListener ulListener = null;
 
 
     public interface OnClickListener {
@@ -46,7 +47,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setOnClickListener(OnClickListener listener) {
-        this.mListener = listener;
+        this.ulListener = listener;
     }
 
     public UserListAdapter() {
@@ -55,9 +56,9 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         final String myuid = firebaseUser.getUid();
+//        userName = firebaseUser.getDisplayName();
 
         userModels = new ArrayList<>();
-
         listModel = new ListModel();
 
         firebaseFirestore.collection("conditions").document(firebaseUser.getUid())
@@ -68,6 +69,8 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         personnel = documentSnapshot.get("personnel").toString();
                         yourcollege = documentSnapshot.get("yourcollege").toString();
                         gender = documentSnapshot.get("gender").toString();
+                        userName = documentSnapshot.get("name").toString();
+
                         listModel.mycollege = mycollege;
                         listModel.personnel = personnel;
                         listModel.yourcollege = yourcollege;
@@ -109,18 +112,29 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_userlist,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_userlist, parent,false);
 
         return new CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((CustomViewHolder)holder).userlist_tv_name.setText(userModels.get(position).name);
-        ((CustomViewHolder)holder).userlist_tv_mycollege.setText(userModels.get(position).mycollege);
-        ((CustomViewHolder)holder).userlist_tv_yourcollege.setText(userModels.get(position).yourcollege);
-        ((CustomViewHolder)holder).userlist_tv_personnel.setText(userModels.get(position).personnel);
-        ((CustomViewHolder)holder).userlist_tv_gender.setText(userModels.get(position).gender);
+
+        ((CustomViewHolder)holder).ul_rl_one_tv.setText(userName);
+        ((CustomViewHolder)holder).ul_rl_two_tv.setText(userModels.get(position).name);
+
+        if(gender.equals("남자")) {
+            ((CustomViewHolder)holder).ul_rl_one_iv.setImageResource(R.drawable.ul_male);
+            ((CustomViewHolder)holder).ul_rl_two_iv.setImageResource(R.drawable.ul_female);
+        } else if(gender.equals("여자")) {
+            ((CustomViewHolder)holder).ul_rl_one_iv.setImageResource(R.drawable.ul_female);
+            ((CustomViewHolder)holder).ul_rl_two_iv.setImageResource(R.drawable.ul_male);
+        }
+
+//        ((CustomViewHolder)holder).userlist_tv_mycollege.setText(userModels.get(position).mycollege);
+//        ((CustomViewHolder)holder).userlist_tv_yourcollege.setText(userModels.get(position).yourcollege);
+//        ((CustomViewHolder)holder).userlist_tv_personnel.setText(userModels.get(position).personnel);
+//        ((CustomViewHolder)holder).userlist_tv_gender.setText(userModels.get(position).gender);
             }
 
     @Override
@@ -129,29 +143,25 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {
-        public TextView userlist_tv_name;
-        public TextView userlist_tv_mycollege;
-        public TextView userlist_tv_yourcollege;
-        public TextView userlist_tv_personnel;
-        public TextView userlist_tv_gender;
-        public Button userlist_btn_request;
+        private ImageView ul_rl_one_iv;
+        private ImageView ul_rl_two_iv;
+        private TextView ul_rl_one_tv;
+        private TextView ul_rl_two_tv;
 
-        public CustomViewHolder(View view) {
+        private CustomViewHolder(View view) {
             super(view);
-            userlist_tv_name = view.findViewById(R.id.userlist_tv_name);
-            userlist_tv_mycollege = view.findViewById(R.id.userlist_tv_mycollege);
-            userlist_tv_yourcollege = view.findViewById(R.id.userlist_tv_yourcollege);
-            userlist_tv_personnel = view.findViewById(R.id.userlist_tv_personnel);
-            userlist_tv_gender = view.findViewById(R.id.userlist_tv_gender);
-            userlist_btn_request = view.findViewById(R.id.userlist_btn_request);
+            ul_rl_one_iv = view.findViewById(R.id.ul_rl_one_iv);
+            ul_rl_one_tv = view.findViewById(R.id.ul_rl_one_tv);
+            ul_rl_two_iv = view.findViewById(R.id.ul_rl_two_iv);
+            ul_rl_two_tv = view.findViewById(R.id.ul_rl_two_tv);
 
-            userlist_btn_request.setOnClickListener(new View.OnClickListener() {
+            ul_rl_two_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        if (mListener != null) {
-                            mListener.OnClick(view, pos);
+                        if (ulListener != null) {
+                            ulListener.OnClick(view, pos);
                         }
                     }
                 }

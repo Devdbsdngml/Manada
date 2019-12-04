@@ -11,7 +11,7 @@
         android:layout_margin="6dp"
         android:layout_gravity="center"
         android:foregroundGravity="center"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@mipmap/ic_launcher_manada_round"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:id="@+id/your_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:padding="3dp"
             android:text=""/>
 
@@ -31,11 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/your_chatbubble"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:padding="3dp"
             android:gravity="center"
             android:text=""
-            android:textSize="12sp"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 

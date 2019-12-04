@@ -17,10 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.manada.Model.UserModel;
 import com.example.manada.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
@@ -107,6 +110,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "error1");
                                 showToast("회원정보가 등록되었습니다");
+                                updateProfile(name);
+
                                 Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.anim_slide_in_top, R.anim.anim_slide_out_bottom);
@@ -124,6 +129,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
+    public void updateProfile(String name) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
+    }
+
     // 뒤로가기 두 번 종료
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
