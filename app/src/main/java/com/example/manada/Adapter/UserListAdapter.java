@@ -61,52 +61,63 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         userModels = new ArrayList<>();
         listModel = new ListModel();
 
-        firebaseFirestore.collection("conditions").document(firebaseUser.getUid())
-                .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        mycollege = documentSnapshot.get("mycollege").toString();
-                        personnel = documentSnapshot.get("personnel").toString();
-                        yourcollege = documentSnapshot.get("yourcollege").toString();
-                        gender = documentSnapshot.get("gender").toString();
-                        userName = documentSnapshot.get("name").toString();
+        if(firebaseUser != null) {
+            firebaseFirestore.collection("conditions").document(firebaseUser.getUid())
+                    .get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot != null) {
+                        if(documentSnapshot.exists()) {
+                            mycollege = documentSnapshot.get("mycollege").toString();
+                            personnel = documentSnapshot.get("personnel").toString();
+                            yourcollege = documentSnapshot.get("yourcollege").toString();
+                            gender = documentSnapshot.get("gender").toString();
+                            userName = documentSnapshot.get("name").toString();
 
-                        listModel.mycollege = mycollege;
-                        listModel.personnel = personnel;
-                        listModel.yourcollege = yourcollege;
+                            listModel.mycollege = mycollege;
+                            listModel.personnel = personnel;
+                            listModel.yourcollege = yourcollege;
 
-                        if(gender.equals("남자")) {
-                            listModel.gender = "여자";
-                        }
-                        else if(gender.equals("여자")) {
-                            listModel.gender = "남자";
-                        }
-
-                        // 선택한 조건에따라 Userlist 목록 출력
-                        firebaseFirestore.collection("conditions")
-                                .whereEqualTo("mycollege", listModel.yourcollege)
-                                .whereEqualTo("personnel", listModel.personnel)
-                                .whereEqualTo("yourcollege", listModel.mycollege)
-                                .whereEqualTo("gender", listModel.gender)
-                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                userModels.clear();
-                                if(task.isSuccessful()) {
-                                    for(QueryDocumentSnapshot document : task.getResult()) {
-                                        UserModel userModel = document.toObject(UserModel.class);
-                                        if(userModel.uid.equals(myuid)) {
-                                            continue;
-                                        }
-                                        userModels.add(userModel);
-                                    }
-                                    notifyDataSetChanged();
-                                }
+                            if(gender.equals("남자")) {
+                                listModel.gender = "여자";
                             }
-                        });
+                            else if(gender.equals("여자")) {
+                                listModel.gender = "남자";
+                            }
 
+                            // 선택한 조건에따라 Userlist 목록 출력
+                            firebaseFirestore.collection("conditions")
+                                    .whereEqualTo("mycollege", listModel.yourcollege)
+                                    .whereEqualTo("personnel", listModel.personnel)
+                                    .whereEqualTo("yourcollege", listModel.mycollege)
+                                    .whereEqualTo("gender", listModel.gender)
+                                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    userModels.clear();
+                                    if(task.isSuccessful()) {
+                                        for(QueryDocumentSnapshot document : task.getResult()) {
+                                            UserModel userModel = document.toObject(UserModel.class);
+                                            if(userModel.uid.equals(myuid)) {
+                                                continue;
+                                            }
+                                            userModels.add(userModel);
+                                        }
+                                        notifyDataSetChanged();
+                                    }
+                                }
+                            });
+                        } else {
+                            //
+                        }
                     }
-        });
+
+
+                }
+            });
+        }
+
+
     }
 
     @NonNull

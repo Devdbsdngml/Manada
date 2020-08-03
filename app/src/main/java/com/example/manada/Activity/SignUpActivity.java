@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +26,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private Button btn_signin,btn_sendemail;
     private EditText signup_et_email, signup_et_password, signup_et_password_confirm;
-    private ImageView signup_iv_logo;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -62,7 +60,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         signup_et_email = findViewById(R.id.signup_et_email);
         signup_et_password = findViewById(R.id.signup_et_password);
         signup_et_password_confirm = findViewById(R.id.signup_et_password_confirm);
-        signup_iv_logo = findViewById(R.id.signup_iv_logo);
     }
     private void CreateUser() {
 
@@ -113,10 +110,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             signup_et_email.setError("이메일 주소를 입력하세요");
             return false;
         }
-//        else if(!email.contains("@ut.ac.kr")) {
-//            signup_et_email.setError("학교 이메일을 입력하세요");
-//            return false;
-//        }
+        else if(!email.contains("@ut.ac.kr")) {
+            signup_et_email.setError("학교 이메일을 입력하세요");
+            return false;
+        }
         else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             signup_et_email.setError("이메일 형식이 잘못 됐습니다");
             return false;
